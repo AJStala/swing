@@ -1,107 +1,147 @@
-
 package com.eonsahead.swing;
 
+/**
+ * Model a Vector.
+ *
+ * @author Austin Stala
+ * @version 4 April 2020
+ */
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Vector {
 
-    private double x;
-    private double y;
-    private double z;
-    private double w;
-    
-    
+    private double[] elements = new double[4];
+
     public Vector() {
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
-        this.w = 0;
-    }
-    
-    public Vector(double x, double y, double z){
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.w = 1;
-    } // Vector(double x, double y, double z)
-    
-    public Vector(double x, double y, double z, double w){
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.w = w;
-    }
-    
-    public double get(int position){
-        switch(position) {
-            case 0:
-                return this.x;
-            case 1:
-                return this.y;
-            case 3:
-                return this.z;  
-        }
-        return this.w;
-    }
-    
-    public void set(int position, double value) {
-        switch(position){
-            case 0:
-                this.x = value;
-            case 1:
-                this.y = value;
-            case 2:
-                this.z = value;
-            case 3:
-                this.w = value;
-        }
-    }
-    
-    public Vector add(Vector v) {
-        double sumX = this.x + v.x;
-        double sumY = this.y + v.y;
-        double sumZ = this.z + v.z;
-        return new Vector(sumX, sumY, sumZ);
-    }
-    
-    public Vector subtract(Vector v) {
-        double subX = this.x - v.x;
-        double subY = this.y - v.y;
-        double subZ = this.z - v.z;
-        return new Vector(subX, subY, subZ);
-    }
-    
-    public double dot(Vector v) {
-        return this.x * v.x + this.y * v.y + this.z * v.z;
-    }
-    
-    public double magnitude(){
-        return Math.sqrt(this.dot(this));
-    }
-    
-    public Vector normalize(){
-        double mag = this.magnitude();
-        Vector newVec = new Vector();
-        for(int i = 0; i < 3; i++) {
-            double newVal = this.get(i) / mag;
-            newVec.set(i, newVal);
-        }
-        newVec.set(3,1);
-        return newVec;
-    }
-    
-    public Vector cross(Vector v) {
-        double newX = this.y * v.z - this.z * v.y;
-        double newY = this.z * v.x - this.x * v.z;
-        double newZ = this.x * v.y - this.y * v.x;
-        return new Vector(newX, newY, newZ);
-    }
-    
-    @Override
-    public String toString() {
+        for (int i = 0; i < 4; i++) {
+            this.elements[i] = 0.0;
+        } // for
+    } // Vector()
 
-      return "(" + this.x + ", " + this.y + ", " 
-                + this.z + ", " + this.w + ")";
+    public Vector(double x, double y, double z) {
+        this.elements[0] = x;
+        this.elements[1] = y;
+        this.elements[2] = z;
+        this.elements[3] = 1.0;
+    } // Vector( double, double, double )
 
-    }  
+    /**
+     * Constructs a 4 element vector
+     * @param x First element
+     * @param y Second element
+     * @param z Third element
+     * @param h Fourth element
+     */
     
+    public Vector(double x, double y, double z, double h) {
+        this.elements[0] = x;
+        this.elements[1] = y;
+        this.elements[2] = z;
+        this.elements[3] = h;
+    } // Vector( double, double, double, double )
+
+    /**
+     * returns the value at a specific point in the vector
+     * @param index the specified point
+     * @return the specified value
+     */
+    
+    public double get( int index ) {
+        return this.elements[index];
+    } // get( int )
+    
+    /**
+     * Changes the value at a specified point
+     * @param index the point
+     * @param value the value
+     */
+    
+    public void set( int index, double value ) {
+        this.elements[index] = value;
+    } // set( int, double )
+    
+    /**
+     * Sets all values of a vector to the same value
+     * @param v the specified value
+     */
+    
+    public void set( Vector v ) {
+        this.elements[0] = v.elements[0];
+        this.elements[1] = v.elements[1];
+        this.elements[2] = v.elements[2];
+        this.elements[3] = v.elements[3];
+    } // set( Vector )
+    
+    /**
+     * Adds the values of two vectors
+     * @param v Second vector
+     * @return The sum vector
+     */
+    
+    public Vector add( Vector v ) {
+        double x = this.get(0) + v.get(0);
+        double y = this.get(1) + v.get(1);
+        double z = this.get(2) + v.get(2);        
+        return new Vector( x, y, z );
+    } // add( Vector )
+    
+    
+    /**
+     * Subtract the values of two vectors
+     * @param v Second vector
+     * @return The difference vector 
+     */
+    
+    public Vector subtract( Vector v ) {
+        double x = this.get(0) - v.get(0);
+        double y = this.get(1) - v.get(1);
+        double z = this.get(2) - v.get(2);        
+        return new Vector( x, y, z );
+    } // subtract( Vector )
+    
+    public double dot( Vector v ) {
+        double xProduct = this.get(0) * v.get(0);
+        double yProduct = this.get(1) * v.get(1);
+        double zProduct = this.get(2) * v.get(2);
+        return xProduct + yProduct + zProduct;
+    } // dot( Vector )
+    
+    public double magnitude() {
+        return Math.sqrt( this.dot( this ) );
+    } // magnitude()
+    
+    public Vector normalize() {
+        double length = this.magnitude();
+        double x = this.get(0) / length;
+        double y = this.get(1) / length;
+        double z = this.get(2) / length;
+        return new Vector( x, y, z );
+    } // normalize()
+    
+    public Vector cross( Vector v ) {
+        double x = this.get(1) * v.get(2) - this.get(2) * v.get(1);
+        double y = this.get(2) * v.get(0) - this.get(0) * v.get(2);
+        double z = this.get(0) * v.get(1) - this.get(1) * v.get(0);
+        return new Vector( x, y, z );
+    } // cross( Vector )
+    
+    public static void main( String [] args ) {
+        System.out.println( "hi");
+        List<List<Vector>> surface = new ArrayList<>();
+        
+        List<Vector> poly0 = new ArrayList<>();
+        poly0.add(new Vector());
+        poly0.add(new Vector());
+        
+        List<Vector> poly1 = new ArrayList<>();
+        poly1.add(new Vector());
+        poly1.add(new Vector());
+        
+        surface.add( poly0 );
+        surface.add( poly1 );
+        
+        System.out.println( "size = " + surface.size() );
+    } // main( String [] )
 } // Vector
