@@ -15,12 +15,12 @@ import javax.swing.JPanel;
 
 public class Swing extends JFrame implements ActionListener {
 
-    private final int FRAME_WIDTH = 512;
-    private final int FRAME_HEIGHT = 512;
-    private final String FRAME_TITLE = "Swing";
-    private final int NUMBER_OF_COLORS = 8;
-    private final String BG_COLOR = "Background Color";
-    private final String FG_COLOR = "Foreground Color";
+    private final int FRAME_WIDTH = 1024;
+    private final int FRAME_HEIGHT = 1024;
+    private final String FRAME_TITLE = "Bounce";
+    private final int NUMBER_OF_COLORS = 4;
+    private final String BG_COLOR = "Color, Back";
+    private final String FG_COLOR = "Color, Fore";
 
     private final List<Color> bgPalette = new ArrayList<>();
     private final List<Color> fgPalette = new ArrayList<>();
@@ -37,18 +37,18 @@ public class Swing extends JFrame implements ActionListener {
 
         Random rng = new Random();
         for (int i = 0; i < NUMBER_OF_COLORS; i++) {
-            int red = 64 + rng.nextInt(128);
+            int red = 48 + rng.nextInt(128);
             int green = 64 + rng.nextInt(128);
-            int blue = 64 + rng.nextInt(128);
+            int blue = 33 + rng.nextInt(128);
             Color color = new Color(red, green, blue);
             bgPalette.add(color);
         } // for
         this.panel.setBackground(bgPalette.get(0));
 
         for (int i = 0; i < NUMBER_OF_COLORS; i++) {
-            int red = 32 + rng.nextInt(224);
+            int red = 30 + rng.nextInt(224);
             int green = 32 + rng.nextInt(224);
-            int blue = 32 + rng.nextInt(224);
+            int blue = 42 + rng.nextInt(224);
             Color color = new Color(red, green, blue);
             fgPalette.add(color);
         } // for
